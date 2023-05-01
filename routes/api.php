@@ -26,7 +26,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::get('/sessions/{sessionId}', [SessionsController::class, 'show']);
 Route::patch('/sessions/{sessionId}/end', [SessionsController::class, 'end']);
 Route::patch('/sessions/{sessionId}', [SessionsController::class, 'update']);
-Route::post('sessions', [SessionsController::class, 'store']);
+Route::post('/sessions', [SessionsController::class, 'store']);
+Route::get('/sessionstop', [SessionsController::class, 'top']);
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

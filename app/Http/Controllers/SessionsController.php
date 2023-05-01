@@ -8,7 +8,6 @@ use App\Models\Question;
 use App\Models\Session;
 use App\Traits\HttpResponses;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class SessionsController extends Controller
@@ -21,6 +20,23 @@ class SessionsController extends Controller
     public function index()
     {
         return $this->success(Session::all());
+    }
+
+    /**
+     * Top scorers method.
+     */
+    public function top()
+    {
+        $sessions = Session::whereNotNull('ended')->orderBy('correct', 'desc')->get();
+
+        $sessions = $sessions->map(function ($session) {
+            $session->diff = $session->ended->diffInSeconds($session->created_at);
+            return $session;
+        });
+
+        $sorted = $sessions->sortByDesc('correct')->sortBy('diff');
+
+        return $this->success($sorted);
     }
 
     /**
