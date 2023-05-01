@@ -21,7 +21,7 @@ class AuthController extends Controller
         $request->validated($request->all());
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            return $this->error('Incorrect email or password', 401);
+            return $this->error('Incorrect email or password', 400);
         }
 
         $user = User::where('email', $request->email)->first();
